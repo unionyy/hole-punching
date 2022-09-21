@@ -13,6 +13,7 @@ const rl = readline.createInterface({
 let clients = []
 
 rl.on('line', (line) => {
+	// register 명령어를 통해 서버로 패킷을 보낸다. (클라이언트들의 public IP와 포트 번호 정보를 요청한다)
     if(line === 'register') {
         let message = 'register'
         client.send(message, 0, message.length, PORT, HOST, (err, bytes) => {
@@ -22,6 +23,8 @@ rl.on('line', (line) => {
             console.log(`UDP ${address.address}:${address.port} -> ${HOST}:${PORT}`)
         })
     }
+
+	// connect 명령어를 통해 원하는 클라이언트와 통신한다.
     else if(line.slice(0, 7) === 'connect') {
         let otherIndex = Number(line[8])
         let other = clients[otherIndex]
@@ -46,6 +49,7 @@ client.on('listening', () => {
     console.log(`UDP Server listening on ${address.address}:${address.port}`)
 })
 
+// 서버로부터 클라이언트들의 public IP 와 포트 번호 정보를 받으면 저장한다.
 client.on('message', (message, remote) => {
     console.log(`${remote.address}:${remote.port} - ${message}`)
 

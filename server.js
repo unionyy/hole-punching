@@ -12,6 +12,7 @@ server.on('listening', () => {
     console.log(`UDP Server listening on ${address.address}:${address.port}`)
 })
 
+// 서버는 메시지를 받으면 public IP와 포트 번호를 저장하고, 모든 클라이언트의 public IP와 포트 번호 정보를 보내준다.
 server.on('message', (message, remote) => {
     console.log(`${remote.address}:${remote.port} - ${message}`)
 
